@@ -1,0 +1,10 @@
+{
+  "name": "Remix Routix",
+  "description": "Detect, Report, Repair: AI-powered pothole and evasive manoeuvre detection, GPS priority hazard mapping, nearby local worker dispatch, and AI repair verification.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,442 @@
+{
+  "entities": {
+    "UserAccount": {
+      "title": "UserAccount",
+      "description": "Operational civic account profile for Routix users (Workers, Engineers, Municipality Officers, Government Authorities). Contains no PII.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase Authentication UID matching the document ID.",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Full display name of the civic user or crew lead.",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "role": {
+          "type": "string",
+          "description": "Verified active RBAC role assigned by server/admin.",
+          "enum": ["worker", "engineer", "municipality_officer", "government"]
+        },
+        "requestedRole": {
+          "type": "string",
+          "description": "Role requested by the user during onboarding or role upgrade.",
+          "enum": ["worker", "engineer", "municipality_officer", "government"]
+        },
+        "approvalStatus": {
+          "type": "string",
+          "description": "Verification status for privileged civic roles.",
+          "enum": ["approved", "pending", "rejected"]
+        },
+        "organization": {
+          "type": "string",
+          "description": "Department, municipal ward office, contractor squad, or government agency.",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "wardZone": {
+          "type": "string",
+          "description": "Assigned municipal ward or operating road corridor.",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "badgeNumber": {
+          "type": "string",
+          "description": "Employee ID, contractor license, or municipal officer badge code.",
+          "maxLength": 40
+        },
+        "specialty": {
+          "type": "string",
+          "description": "Operational specialty (e.g. IRC:SP:100 Cold-Mix, PSI Triage, Escrow Audit).",
+          "maxLength": 100
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the account profile was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the account profile was last updated."
+        }
+      },
+      "required": [
+        "uid",
+        "displayName",
+        "role",
+        "requestedRole",
+        "approvalStatus",
+        "organization",
+        "wardZone",
+        "badgeNumber",
+        "specialty",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "UserPrivateInfo": {
+      "title": "UserPrivateInfo",
+      "description": "Strictly isolated PII record for a user account (email, phone, DBT bank handle, office address).",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Owner Firebase Auth UID matching the parent user document ID.",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "email": {
+          "type": "string",
+          "description": "Verified account email address.",
+          "maxLength": 120
+        },
+        "phone": {
+          "type": "string",
+          "description": "Contact phone number for field dispatch or official alerts.",
+          "maxLength": 24
+        },
+        "dbtHandle": {
+          "type": "string",
+          "description": "Masked DBT bank/UPI reference or treasury disbursal code.",
+          "maxLength": 64
+        },
+        "officeAddress": {
+          "type": "string",
+          "description": "Assigned ward depot or municipal office address.",
+          "maxLength": 160
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server update timestamp."
+        }
+      },
+      "required": [
+        "uid",
+        "email",
+        "phone",
+        "dbtHandle",
+        "officeAddress",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "RoleAccessRequest": {
+      "title": "RoleAccessRequest",
+      "description": "Verification request submitted by a user to activate Engineer, Municipality Officer, or Government Authority access.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Requester Firebase Auth UID matching the document ID.",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Full name of the applicant.",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "requestedRole": {
+          "type": "string",
+          "description": "Target civic role requested.",
+          "enum": ["worker", "engineer", "municipality_officer", "government"]
+        },
+        "organization": {
+          "type": "string",
+          "description": "Department or agency name.",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "wardZone": {
+          "type": "string",
+          "description": "Assigned ward or jurisdiction.",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "badgeNumber": {
+          "type": "string",
+          "description": "Official ID / badge / empanelment reference.",
+          "minLength": 2,
+          "maxLength": 40
+        },
+        "justification": {
+          "type": "string",
+          "description": "Brief verification note for authority approval.",
+          "maxLength": 300
+        },
+        "status": {
+          "type": "string",
+          "description": "Review state controlled by Government/Admin authority.",
+          "enum": ["pending", "approved", "rejected"]
+        },
+        "reviewedByUid": {
+          "type": "string",
+          "description": "UID of the admin authority who reviewed this request (empty when pending).",
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of request creation."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of last request update."
+        }
+      },
+      "required": [
+        "uid",
+        "displayName",
+        "requestedRole",
+        "organization",
+        "wardZone",
+        "badgeNumber",
+        "justification",
+        "status",
+        "reviewedByUid",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "AdminMarker": {
+      "title": "AdminMarker",
+      "description": "Trusted admin lookup record granting Government/Root Authority privileges.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Admin user UID.",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "grantedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when admin privilege was provisioned."
+        }
+      },
+      "required": ["uid", "grantedAt"]
+    },
+    "UserSettings": {
+      "title": "UserSettings",
+      "description": "Per-user Routix application settings (theme, default view, ward, heatmap, IMU sensitivity, notifications).",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Owner Firebase Auth UID matching the document ID.",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "theme": {
+          "type": "string",
+          "description": "Preferred color theme.",
+          "enum": ["light", "dark"]
+        },
+        "defaultTab": {
+          "type": "string",
+          "description": "Initial workspace tab opened on launch.",
+          "enum": ["map", "detect", "dispatch", "verify", "workers"]
+        },
+        "defaultWard": {
+          "type": "string",
+          "description": "Preferred municipal ward or road corridor.",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "defaultHeatmapOn": {
+          "type": "boolean",
+          "description": "Whether the Live Map opens with the density heatmap enabled."
+        },
+        "autoUseGps": {
+          "type": "boolean",
+          "description": "Automatically attempt GPS lock when opening camera hazard reporting."
+        },
+        "highSeverityAlerts": {
+          "type": "boolean",
+          "description": "Highlight critical PSI >= 85 corridor hazards in alerts."
+        },
+        "imuSensitivity": {
+          "type": "string",
+          "description": "Passive smartphone IMU vertical-g shock threshold.",
+          "enum": ["high_2_2g", "standard_2_5g", "strict_3_0g"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when settings were initialized."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when settings were last updated."
+        }
+      },
+      "required": [
+        "uid",
+        "theme",
+        "defaultTab",
+        "defaultWard",
+        "defaultHeatmapOn",
+        "autoUseGps",
+        "highSeverityAlerts",
+        "imuSensitivity",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ReportHistoryEntry": {
+      "title": "ReportHistoryEntry",
+      "description": "Per-user history record of potholes and road hazards reported via Camera or AI Detect (no embedded images).",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Document ID matching ^[a-zA-Z0-9_\\-]+$.",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "uid": {
+          "type": "string",
+          "description": "Reporter Firebase Auth UID.",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "hazardId": {
+          "type": "string",
+          "description": "Linked Routix hazard ticket ID (e.g. HZ-1054).",
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "title": {
+          "type": "string",
+          "description": "Short hazard title.",
+          "minLength": 2,
+          "maxLength": 140
+        },
+        "streetName": {
+          "type": "string",
+          "description": "Road or street location.",
+          "minLength": 2,
+          "maxLength": 140
+        },
+        "ward": {
+          "type": "string",
+          "description": "Municipal ward name.",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "hazardType": {
+          "type": "string",
+          "description": "Detected road defect type.",
+          "minLength": 2,
+          "maxLength": 64
+        },
+        "severity": {
+          "type": "string",
+          "description": "Hazard severity classification.",
+          "enum": ["critical", "high", "moderate", "low"]
+        },
+        "priorityScore": {
+          "type": "number",
+          "description": "Pothole Severity Index (PSI 0-100)."
+        },
+        "source": {
+          "type": "string",
+          "description": "Capture source used to report the hazard.",
+          "enum": ["camera", "ai_detect"]
+        },
+        "status": {
+          "type": "string",
+          "description": "Ticket lifecycle status at time of log or sync.",
+          "enum": ["open", "dispatched", "pending_verification", "verified"]
+        },
+        "lat": {
+          "type": "number",
+          "description": "Latitude coordinate."
+        },
+        "lng": {
+          "type": "number",
+          "description": "Longitude coordinate."
+        },
+        "estimatedCostInr": {
+          "type": "number",
+          "description": "Estimated cold-mix repair cost in INR."
+        },
+        "reportedAt": {
+          "type": "string",
+          "description": "ISO timestamp string of the report.",
+          "maxLength": 64
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server update timestamp."
+        }
+      },
+      "required": [
+        "id",
+        "uid",
+        "hazardId",
+        "title",
+        "streetName",
+        "ward",
+        "hazardType",
+        "severity",
+        "priorityScore",
+        "source",
+        "status",
+        "lat",
+        "lng",
+        "estimatedCostInr",
+        "reportedAt",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserAccount" },
+      "description": "Operational civic account profiles for Engineers, Workers, Municipality Officers, and Government Authorities."
+    },
+    "/users/{userId}/private/{docId}": {
+      "schema": { "$ref": "#/entities/UserPrivateInfo" },
+      "description": "Isolated PII subcollection (email, phone, DBT bank handle, office address) readable only by the account owner or admin."
+    },
+    "/role_requests/{userId}": {
+      "schema": { "$ref": "#/entities/RoleAccessRequest" },
+      "description": "Role verification queue for privileged civic roles awaiting Government/Admin review."
+    },
+    "/admins/{userId}": {
+      "schema": { "$ref": "#/entities/AdminMarker" },
+      "description": "Trusted admin registry."
+    },
+    "/user_settings/{userId}": {
+      "schema": { "$ref": "#/entities/UserSettings" },
+      "description": "Per-user Routix application preferences synced across devices."
+    },
+    "/report_history/{reportId}": {
+      "schema": { "$ref": "#/entities/ReportHistoryEntry" },
+      "description": "Per-user audit trail of reported potholes and road hazards."
+    }
+  }
+}

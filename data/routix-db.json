@@ -1,0 +1,523 @@
+{
+  "schemaVersion": 2,
+  "hazards": [
+    {
+      "id": "HZ-1042",
+      "title": "Waterlogged Crater Near Left Lane",
+      "streetName": "100 Feet Road, Indiranagar",
+      "corridor": "East Arterial Corridor",
+      "ward": "Ward 80 · Indiranagar",
+      "lat": 12.9784,
+      "lng": 77.6408,
+      "hazardType": "Waterlogged Crater",
+      "severity": "critical",
+      "psiBreakdown": {
+        "craterVolumeScore": 95,
+        "trafficDensityScore": 92,
+        "clusterHitsScore": 96,
+        "monsoonRiskScore": 90
+      },
+      "priorityScore": 94,
+      "craterGeometry": {
+        "surfaceAreaSqM": 0.62,
+        "depthCm": 11,
+        "volumeLiters": 68,
+        "ircColdMixKg": 143,
+        "ircBags25Kg": 6,
+        "estimatedCostInr": 3020
+      },
+      "estimatedWidthCm": 88,
+      "evasiveManoeuvreCount": 41,
+      "clusterVehicleHits": 38,
+      "imuSignature": "pothole_impact_spike",
+      "peakVerticalG": 3.18,
+      "peakLateralG": 0.48,
+      "dominantManoeuvre": "lane_swerve",
+      "twoWheelerRisk": "High rollover and hidden depth risk for two-wheelers due to pooled rainwater obscuring jagged asphalt edges.",
+      "evasiveExplanation": "38 swarm vehicles logged >2.8g dip-then-spike impacts alongside 41 S-curve lateral swerves.",
+      "recommendedAction": "Drain water, clean loose aggregate, and compact IRC:SP:100 cold-mix asphalt flush within 20 mins.",
+      "repairMaterialEstimate": "IRC:SP:100 Cold-Mix · 143 kg (6 bags)",
+      "microJobPayoutInr": 3020,
+      "slaHours": 4,
+      "slaDeadlineAt": "2026-11-16T19:55:11.405Z",
+      "status": "open",
+      "photoUrl": "/src/assets/images/sample_pothole_road_1794848761452.jpg",
+      "applications": [
+        {
+          "id": "APP-201",
+          "workerId": "WK-01",
+          "workerName": "Arjun Shetty",
+          "distanceKm": 0.8,
+          "note": "Carrying 6 bags IRC:SP:100 cold-mix and hand compactor; 10 min ETA.",
+          "appliedAt": "2026-11-16T16:25:11.405Z"
+        }
+      ],
+      "govtGrantStatus": "not_eligible",
+      "reportedAt": "2026-11-16T15:55:11.405Z"
+    },
+    {
+      "id": "HZ-1041",
+      "title": "Multi-Patch Fatigue Cracking",
+      "streetName": "80 Feet Road, Koramangala 4th Block",
+      "corridor": "South Commuter Ring",
+      "ward": "Ward 151 · Koramangala",
+      "lat": 12.9352,
+      "lng": 77.6245,
+      "hazardType": "Surface Collapse",
+      "severity": "high",
+      "psiBreakdown": {
+        "craterVolumeScore": 88,
+        "trafficDensityScore": 90,
+        "clusterHitsScore": 84,
+        "monsoonRiskScore": 70
+      },
+      "priorityScore": 86,
+      "craterGeometry": {
+        "surfaceAreaSqM": 0.84,
+        "depthCm": 7,
+        "volumeLiters": 59,
+        "ircColdMixKg": 124,
+        "ircBags25Kg": 5,
+        "estimatedCostInr": 2600
+      },
+      "estimatedWidthCm": 115,
+      "evasiveManoeuvreCount": 29,
+      "clusterVehicleHits": 24,
+      "imuSignature": "gyro_swerve_dodge",
+      "peakVerticalG": 2.62,
+      "peakLateralG": 0.44,
+      "dominantManoeuvre": "lane_swerve",
+      "twoWheelerRisk": "Motorbike commuters are weaving across lane markings to bypass broken asphalt slabs during peak traffic.",
+      "evasiveExplanation": "24 clustered vehicle hits with repeated S-curve gyroscope swerves and 18 km/h speed drop.",
+      "recommendedAction": "Clear loose slabs and compact IRC:SP:100 cold-mix leveling patch (no heavy roller required).",
+      "repairMaterialEstimate": "IRC:SP:100 Cold-Mix · 124 kg (5 bags)",
+      "microJobPayoutInr": 2600,
+      "slaHours": 12,
+      "slaDeadlineAt": "2026-11-17T00:37:11.405Z",
+      "status": "open",
+      "photoUrl": "/src/assets/images/sample_swerve_corridor_1794848762324.jpg",
+      "applications": [],
+      "govtGrantStatus": "not_eligible",
+      "reportedAt": "2026-11-16T12:37:11.405Z"
+    },
+    {
+      "id": "HZ-1039",
+      "title": "Deep Wheel-Track Depression",
+      "streetName": "MG Road Junction near Trinity Circle",
+      "corridor": "Central Business Spine",
+      "ward": "Ward 111 · Shanthala Nagar",
+      "lat": 12.9736,
+      "lng": 77.6192,
+      "hazardType": "Pothole",
+      "severity": "high",
+      "psiBreakdown": {
+        "craterVolumeScore": 76,
+        "trafficDensityScore": 88,
+        "clusterHitsScore": 75,
+        "monsoonRiskScore": 68
+      },
+      "priorityScore": 79,
+      "craterGeometry": {
+        "surfaceAreaSqM": 0.32,
+        "depthCm": 8,
+        "volumeLiters": 26,
+        "ircColdMixKg": 55,
+        "ircBags25Kg": 3,
+        "estimatedCostInr": 1760
+      },
+      "estimatedWidthCm": 62,
+      "evasiveManoeuvreCount": 18,
+      "clusterVehicleHits": 17,
+      "imuSignature": "sudden_braking",
+      "peakVerticalG": 2.74,
+      "peakLateralG": 0.31,
+      "dominantManoeuvre": "sudden_braking",
+      "twoWheelerRisk": "Sudden deceleration events ahead of signalized crossing increase rear-end collision exposure.",
+      "evasiveExplanation": "17 swarm hits + 18 hard braking spikes logged prior to intersection stop bar.",
+      "recommendedAction": "Pour IRC:SP:100 cold-mix and tamp flush in 20 minutes.",
+      "repairMaterialEstimate": "IRC:SP:100 Cold-Mix · 55 kg (3 bags)",
+      "microJobPayoutInr": 1760,
+      "slaHours": 12,
+      "slaDeadlineAt": "2026-11-16T20:55:11.405Z",
+      "status": "pending_verification",
+      "photoUrl": "/src/assets/images/sample_pothole_road_1794848761452.jpg",
+      "afterPhotoUrl": "/src/assets/images/sample_repaired_road_1794848761759.jpg",
+      "assignedWorkerId": "WK-02",
+      "assignedWorkerName": "Ramesh Gowda",
+      "assignedDistanceKm": 0.9,
+      "assignedAt": "2026-11-16T13:25:11.405Z",
+      "govtGrantStatus": "not_eligible",
+      "escrowPoolStatus": "locked",
+      "reportedAt": "2026-11-16T08:55:11.405Z"
+    },
+    {
+      "id": "HZ-1037",
+      "title": "Storm Drain Edge Shear",
+      "streetName": "Outer Ring Road, Bellandur Flyover Ramp",
+      "corridor": "IT Corridor Expressway",
+      "ward": "Ward 150 · Bellandur",
+      "lat": 12.9279,
+      "lng": 77.6762,
+      "hazardType": "Edge Cracking",
+      "severity": "moderate",
+      "psiBreakdown": {
+        "craterVolumeScore": 60,
+        "trafficDensityScore": 82,
+        "clusterHitsScore": 62,
+        "monsoonRiskScore": 60
+      },
+      "priorityScore": 67,
+      "craterGeometry": {
+        "surfaceAreaSqM": 0.24,
+        "depthCm": 6,
+        "volumeLiters": 14,
+        "ircColdMixKg": 29,
+        "ircBags25Kg": 2,
+        "estimatedCostInr": 1340
+      },
+      "estimatedWidthCm": 48,
+      "evasiveManoeuvreCount": 11,
+      "clusterVehicleHits": 12,
+      "imuSignature": "gyro_swerve_dodge",
+      "peakVerticalG": 2.35,
+      "peakLateralG": 0.29,
+      "dominantManoeuvre": "speed_drop",
+      "twoWheelerRisk": "Shoulder drop-off forces cyclists and scooters toward high-speed lane traffic.",
+      "evasiveExplanation": "Consistent 24 km/h localized speed dip and 12 swarm edge detections.",
+      "recommendedAction": "Stabilize shoulder shear with IRC:SP:100 cold-mix and bitumen edge seal.",
+      "repairMaterialEstimate": "IRC:SP:100 Cold-Mix · 30 kg (2 bags)",
+      "microJobPayoutInr": 1340,
+      "slaHours": 24,
+      "slaDeadlineAt": "2026-11-17T07:25:11.405Z",
+      "status": "dispatched",
+      "photoUrl": "/src/assets/images/sample_swerve_corridor_1794848762324.jpg",
+      "assignedWorkerId": "WK-04",
+      "assignedWorkerName": "Kiran Nair",
+      "assignedDistanceKm": 1.4,
+      "assignedAt": "2026-11-16T15:55:11.405Z",
+      "govtGrantStatus": "not_eligible",
+      "escrowPoolStatus": "locked",
+      "reportedAt": "2026-11-16T07:25:11.405Z"
+    },
+    {
+      "id": "HZ-1035",
+      "title": "Lane-Center Utility Trench Sink",
+      "streetName": "Church Street, Shanthala Nagar",
+      "corridor": "Central Retail Corridor",
+      "ward": "Ward 111 · Shanthala Nagar",
+      "lat": 12.9752,
+      "lng": 77.6046,
+      "hazardType": "Pothole",
+      "severity": "high",
+      "psiBreakdown": {
+        "craterVolumeScore": 72,
+        "trafficDensityScore": 86,
+        "clusterHitsScore": 70,
+        "monsoonRiskScore": 75
+      },
+      "priorityScore": 76,
+      "craterGeometry": {
+        "surfaceAreaSqM": 0.28,
+        "depthCm": 7,
+        "volumeLiters": 20,
+        "ircColdMixKg": 42,
+        "ircBags25Kg": 2,
+        "estimatedCostInr": 1340
+      },
+      "estimatedWidthCm": 54,
+      "evasiveManoeuvreCount": 14,
+      "clusterVehicleHits": 15,
+      "imuSignature": "pothole_impact_spike",
+      "peakVerticalG": 2.81,
+      "peakLateralG": 0.36,
+      "dominantManoeuvre": "lane_swerve",
+      "twoWheelerRisk": "Narrow street layout causes abrupt braking when two-wheelers encounter sunken trench seam.",
+      "evasiveExplanation": "15 vehicle impact spikes logged prior to rapid cold-mix repair.",
+      "recommendedAction": "Compact IRC:SP:100 cold-mix patch flush with street grade.",
+      "repairMaterialEstimate": "IRC:SP:100 Cold-Mix · 42 kg (2 bags)",
+      "microJobPayoutInr": 1340,
+      "slaHours": 12,
+      "slaDeadlineAt": "2026-11-16T13:25:11.405Z",
+      "status": "verified",
+      "photoUrl": "/src/assets/images/sample_pothole_road_1794848761452.jpg",
+      "afterPhotoUrl": "/src/assets/images/sample_repaired_road_1794848761759.jpg",
+      "assignedWorkerId": "WK-03",
+      "assignedWorkerName": "Meena Kumari",
+      "assignedDistanceKm": 1.8,
+      "assignedAt": "2026-11-16T03:25:11.405Z",
+      "govtGrantStatus": "pending_sanction",
+      "escrowPoolStatus": "locked",
+      "verification": {
+        "verified": true,
+        "verdict": "Verified Repaired",
+        "surfaceFlushnessScore": 93,
+        "geotagVerified": true,
+        "summary": "Geotagged before/after audit confirms utility trench filled with IRC:SP:100 cold-mix and compacted level.",
+        "checklist": [
+          {
+            "label": "Pothole cavity completely filled",
+            "passed": true
+          },
+          {
+            "label": "Patch flush with surrounding road grade",
+            "passed": true
+          },
+          {
+            "label": "GPS coordinates & timestamp match site",
+            "passed": true
+          },
+          {
+            "label": "Safe surface for two-wheeler tires",
+            "passed": true
+          }
+        ],
+        "verifiedAt": "2026-11-16T11:25:11.405Z"
+      },
+      "reportedAt": "2026-11-15T19:25:11.405Z"
+    },
+    {
+      "id": "HZ-1033",
+      "title": "Bus Bay Asphalt Rutting",
+      "streetName": "Jayanagar 4th Block Main Road",
+      "corridor": "South Transit Loop",
+      "ward": "Ward 168 · Jayanagar",
+      "lat": 12.925,
+      "lng": 77.5838,
+      "hazardType": "Pothole",
+      "severity": "moderate",
+      "psiBreakdown": {
+        "craterVolumeScore": 52,
+        "trafficDensityScore": 68,
+        "clusterHitsScore": 44,
+        "monsoonRiskScore": 40
+      },
+      "priorityScore": 54,
+      "craterGeometry": {
+        "surfaceAreaSqM": 0.2,
+        "depthCm": 5,
+        "volumeLiters": 10,
+        "ircColdMixKg": 21,
+        "ircBags25Kg": 1,
+        "estimatedCostInr": 920
+      },
+      "estimatedWidthCm": 44,
+      "evasiveManoeuvreCount": 6,
+      "clusterVehicleHits": 8,
+      "imuSignature": "pothole_impact_spike",
+      "peakVerticalG": 2.55,
+      "peakLateralG": 0.21,
+      "dominantManoeuvre": "speed_drop",
+      "twoWheelerRisk": "Uneven surface near transit boarding area creates instability during wet braking.",
+      "evasiveExplanation": "8 vehicle vertical spikes recorded near bus bay apron.",
+      "recommendedAction": "Compact IRC:SP:100 cold-mix patch flush with curb apron.",
+      "repairMaterialEstimate": "IRC:SP:100 Cold-Mix · 21 kg (1 bag)",
+      "microJobPayoutInr": 920,
+      "slaHours": 24,
+      "slaDeadlineAt": "2026-11-16T05:25:11.405Z",
+      "status": "verified",
+      "photoUrl": "/src/assets/images/sample_pothole_road_1794848761452.jpg",
+      "afterPhotoUrl": "/src/assets/images/sample_repaired_road_1794848761759.jpg",
+      "assignedWorkerId": "WK-01",
+      "assignedWorkerName": "Arjun Shetty",
+      "assignedDistanceKm": 1.1,
+      "assignedAt": "2026-11-15T15:25:11.405Z",
+      "govtGrantStatus": "sanctioned",
+      "govtSanctionedAmountInr": 920,
+      "govtSanctionRef": "GOV-RD-2026-0418",
+      "govtSanctionedBy": "Municipal Escrow Treasury",
+      "govtSanctionedAt": "2026-11-15T23:25:11.405Z",
+      "escrowPoolStatus": "released",
+      "dbtTxnRef": "DBT-IN-88421094",
+      "dbtDisbursedAt": "2026-11-15T23:55:11.405Z",
+      "verification": {
+        "verified": true,
+        "verdict": "Verified Repaired",
+        "surfaceFlushnessScore": 95,
+        "geotagVerified": true,
+        "summary": "Geotagged audit confirms level compaction flush with surrounding pavement and zero water pooling.",
+        "checklist": [
+          {
+            "label": "Pothole cavity completely filled",
+            "passed": true
+          },
+          {
+            "label": "Patch flush with surrounding road grade",
+            "passed": true
+          },
+          {
+            "label": "GPS coordinates & timestamp match site",
+            "passed": true
+          },
+          {
+            "label": "Safe surface for two-wheeler tires",
+            "passed": true
+          }
+        ],
+        "verifiedAt": "2026-11-15T21:25:11.405Z"
+      },
+      "reportedAt": "2026-11-15T09:25:11.405Z"
+    }
+  ],
+  "workers": [
+    {
+      "id": "WK-01",
+      "name": "Arjun Shetty",
+      "neighborhood": "Indiranagar · Halasuru",
+      "specialty": "IRC:SP:100 Rapid Cold-Mix Squad",
+      "equipment": "Cold-mix bags & vibratory plate tamper",
+      "tier": "micro_gig_squad",
+      "priorityTenderUnlocked": true,
+      "avgTurnaroundMins": 22,
+      "lat": 12.9742,
+      "lng": 77.6345,
+      "available": true,
+      "verifiedByCity": true,
+      "completedRepairs": 28,
+      "totalEarnedInr": 31400,
+      "rating": 4.9,
+      "phoneMask": "+91 98*** 41209"
+    },
+    {
+      "id": "WK-02",
+      "name": "Ramesh Gowda",
+      "neighborhood": "Domlur · Trinity Circle",
+      "specialty": "Tier-1 Arterial Asphalt Contractor",
+      "equipment": "Multi-bag IRC:SP:100 crew & pneumatic compactor",
+      "tier": "tier1_contractor",
+      "priorityTenderUnlocked": true,
+      "avgTurnaroundMins": 26,
+      "lat": 12.9665,
+      "lng": 77.6288,
+      "available": true,
+      "verifiedByCity": true,
+      "completedRepairs": 34,
+      "totalEarnedInr": 48200,
+      "rating": 4.8,
+      "phoneMask": "+91 97*** 88310"
+    },
+    {
+      "id": "WK-03",
+      "name": "Meena Kumari",
+      "neighborhood": "Koramangala · HSR Layout",
+      "specialty": "Drainage Clearing & Base Prep",
+      "equipment": "Dewatering pump & cold-mix tamper kit",
+      "tier": "micro_gig_squad",
+      "priorityTenderUnlocked": true,
+      "avgTurnaroundMins": 19,
+      "lat": 12.9311,
+      "lng": 77.6302,
+      "available": true,
+      "verifiedByCity": true,
+      "completedRepairs": 19,
+      "totalEarnedInr": 22100,
+      "rating": 4.9,
+      "phoneMask": "+91 99*** 65041"
+    },
+    {
+      "id": "WK-04",
+      "name": "Kiran Nair",
+      "neighborhood": "Bellandur · Marathahalli",
+      "specialty": "Tier-1 Expressway Surface Crew",
+      "equipment": "Bitumen edge sealer & heavy cold-mix rig",
+      "tier": "tier1_contractor",
+      "priorityTenderUnlocked": false,
+      "avgTurnaroundMins": 31,
+      "lat": 12.934,
+      "lng": 77.6845,
+      "available": false,
+      "verifiedByCity": true,
+      "completedRepairs": 22,
+      "totalEarnedInr": 29800,
+      "rating": 4.7,
+      "phoneMask": "+91 96*** 19274"
+    },
+    {
+      "id": "WK-05",
+      "name": "Salman Pasha",
+      "neighborhood": "Jayanagar · BTM Layout",
+      "specialty": "Two-Wheeler Corridor Patching",
+      "equipment": "IRC:SP:100 rapid-set kit",
+      "tier": "micro_gig_squad",
+      "priorityTenderUnlocked": true,
+      "avgTurnaroundMins": 18,
+      "lat": 12.9221,
+      "lng": 77.5934,
+      "available": true,
+      "verifiedByCity": true,
+      "completedRepairs": 16,
+      "totalEarnedInr": 17900,
+      "rating": 4.8,
+      "phoneMask": "+91 94*** 53018"
+    }
+  ],
+  "wardBudgets": [
+    {
+      "wardName": "Ward 168 · Jayanagar",
+      "zoneCode": "SOUTH-04",
+      "budgetAllocatedInr": 250000,
+      "baseTurnaroundHours": 2.1
+    },
+    {
+      "wardName": "Ward 111 · Shanthala Nagar",
+      "zoneCode": "CENTRAL-01",
+      "budgetAllocatedInr": 320000,
+      "baseTurnaroundHours": 3.4
+    },
+    {
+      "wardName": "Ward 80 · Indiranagar",
+      "zoneCode": "EAST-02",
+      "budgetAllocatedInr": 300000,
+      "baseTurnaroundHours": 3.8
+    },
+    {
+      "wardName": "Ward 151 · Koramangala",
+      "zoneCode": "SOUTH-07",
+      "budgetAllocatedInr": 280000,
+      "baseTurnaroundHours": 4.6
+    },
+    {
+      "wardName": "Ward 150 · Bellandur",
+      "zoneCode": "MAHADEV-09",
+      "budgetAllocatedInr": 350000,
+      "baseTurnaroundHours": 5.2
+    }
+  ],
+  "scouts": [
+    {
+      "id": "SC-01",
+      "name": "Ananya Rao",
+      "corridor": "Indiranagar · MG Road",
+      "impactPoints": 1680,
+      "rank": "MVP Road Captain",
+      "passiveKmMapped": 412,
+      "confirmedClusters": 27
+    },
+    {
+      "id": "SC-02",
+      "name": "Vikram Hegde",
+      "corridor": "Koramangala · Outer Ring",
+      "impactPoints": 1120,
+      "rank": "Pothole Hunter",
+      "passiveKmMapped": 286,
+      "confirmedClusters": 19
+    },
+    {
+      "id": "SC-03",
+      "name": "Priya Menon",
+      "corridor": "Jayanagar · BTM Loop",
+      "impactPoints": 540,
+      "rank": "Corridor Watcher",
+      "passiveKmMapped": 145,
+      "confirmedClusters": 9
+    },
+    {
+      "id": "SC-04",
+      "name": "Karthik N",
+      "corridor": "Bellandur · HSR",
+      "impactPoints": 240,
+      "rank": "Rookie Scout",
+      "passiveKmMapped": 64,
+      "confirmedClusters": 4
+    }
+  ]
+}

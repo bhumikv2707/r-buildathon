@@ -1,0 +1,491 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global safety net: deny everything unless explicitly matched below
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Helper Primitives ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isOwner(userId) {
+      return isVerifiedUser() && request.auth.uid == userId;
+    }
+
+    function isBootstrappedAdmin() {
+      return isVerifiedUser() && request.auth.token.email == 'bhumikav544@gmail.com';
+    }
+
+    function isAdmin() {
+      return isBootstrappedAdmin() ||
+        (isVerifiedUser() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)));
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidRole(role) {
+      return role in ['worker', 'engineer', 'municipality_officer', 'government'];
+    }
+
+    function isValidApprovalStatus(status) {
+      return status in ['approved', 'pending', 'rejected'];
+    }
+
+    // --- Validation Blueprints ---
+    function isValidUserAccount(data) {
+      return data.keys().hasAll([
+          'uid',
+          'displayName',
+          'role',
+          'requestedRole',
+          'approvalStatus',
+          'organization',
+          'wardZone',
+          'badgeNumber',
+          'specialty',
+          'createdAt',
+          'updatedAt'
+        ]) &&
+        data.keys().hasOnly([
+          'uid',
+          'displayName',
+          'role',
+          'requestedRole',
+          'approvalStatus',
+          'organization',
+          'wardZone',
+          'badgeNumber',
+          'specialty',
+          'createdAt',
+          'updatedAt'
+        ]) &&
+        isValidId(data.uid) &&
+        data.displayName is string && data.displayName.size() >= 2 && data.displayName.size() <= 80 &&
+        isValidRole(data.role) &&
+        isValidRole(data.requestedRole) &&
+        isValidApprovalStatus(data.approvalStatus) &&
+        data.organization is string && data.organization.size() >= 2 && data.organization.size() <= 100 &&
+        data.wardZone is string && data.wardZone.size() >= 2 && data.wardZone.size() <= 80 &&
+        data.badgeNumber is string && data.badgeNumber.size() <= 40 &&
+        data.specialty is string && data.specialty.size() <= 100 &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    function isValidUserPrivateInfo(data) {
+      return data.keys().hasAll([
+          'uid',
+          'email',
+          'phone',
+          'dbtHandle',
+          'officeAddress',
+          'createdAt',
+          'updatedAt'
+        ]) &&
+        data.keys().hasOnly([
+          'uid',
+          'email',
+          'phone',
+          'dbtHandle',
+          'officeAddress',
+          'createdAt',
+          'updatedAt'
+        ]) &&
+        isValidId(data.uid) &&
+        data.email is string && data.email.size() <= 120 &&
+        data.phone is string && data.phone.size() <= 24 &&
+        data.dbtHandle is string && data.dbtHandle.size() <= 64 &&
+        data.officeAddress is string && data.officeAddress.size() <= 160 &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    function isValidRoleRequest(data) {
+      return data.keys().hasAll([
+          'uid',
+          'displayName',
+          'requestedRole',
+          'organization',
+          'wardZone',
+          'badgeNumber',
+          'justification',
+          'status',
+          'reviewedByUid',
+          'createdAt',
+          'updatedAt'
+        ]) &&
+        data.keys().hasOnly([
+          'uid',
+          'displayName',
+          'requestedRole',
+          'organization',
+          'wardZone',
+          'badgeNumber',
+          'justification',
+          'status',
+          'reviewedByUid',
+          'createdAt',
+          'updatedAt'
+        ]) &&
+        isValidId(data.uid) &&
+        data.displayName is string && data.displayName.size() >= 2 && data.displayName.size() <= 80 &&
+        isValidRole(data.requestedRole) &&
+        data.organization is string && data.organization.size() >= 2 && data.organization.size() <= 100 &&
+        data.wardZone is string && data.wardZone.size() >= 2 && data.wardZone.size() <= 80 &&
+        data.badgeNumber is string && data.badgeNumber.size() >= 2 && data.badgeNumber.size() <= 40 &&
+        data.justification is string && data.justification.size() <= 300 &&
+        isValidApprovalStatus(data.status) &&
+        data.reviewedByUid is string && data.reviewedByUid.size() <= 128 &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    function isValidUserSettings(data) {
+      return data.keys().hasAll([
+          'uid',
+          'theme',
+          'defaultTab',
+          'defaultWard',
+          'defaultHeatmapOn',
+          'autoUseGps',
+          'highSeverityAlerts',
+          'imuSensitivity',
+          'createdAt',
+          'updatedAt'
+        ]) &&
+        data.keys().hasOnly([
+          'uid',
+          'theme',
+          'defaultTab',
+          'defaultWard',
+          'defaultHeatmapOn',
+          'autoUseGps',
+          'highSeverityAlerts',
+          'imuSensitivity',
+          'createdAt',
+          'updatedAt'
+        ]) &&
+        isValidId(data.uid) &&
+        data.theme in ['light', 'dark'] &&
+        data.defaultTab in ['map', 'detect', 'dispatch', 'verify', 'workers'] &&
+        data.defaultWard is string && data.defaultWard.size() >= 2 && data.defaultWard.size() <= 80 &&
+        data.defaultHeatmapOn is bool &&
+        data.autoUseGps is bool &&
+        data.highSeverityAlerts is bool &&
+        data.imuSensitivity in ['high_2_2g', 'standard_2_5g', 'strict_3_0g'] &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    function isValidReportHistory(data) {
+      return data.keys().hasAll([
+          'id',
+          'uid',
+          'hazardId',
+          'title',
+          'streetName',
+          'ward',
+          'hazardType',
+          'severity',
+          'priorityScore',
+          'source',
+          'status',
+          'lat',
+          'lng',
+          'estimatedCostInr',
+          'reportedAt',
+          'createdAt',
+          'updatedAt'
+        ]) &&
+        data.keys().hasOnly([
+          'id',
+          'uid',
+          'hazardId',
+          'title',
+          'streetName',
+          'ward',
+          'hazardType',
+          'severity',
+          'priorityScore',
+          'source',
+          'status',
+          'lat',
+          'lng',
+          'estimatedCostInr',
+          'reportedAt',
+          'createdAt',
+          'updatedAt'
+        ]) &&
+        isValidId(data.id) &&
+        isValidId(data.uid) &&
+        isValidId(data.hazardId) &&
+        data.hazardId.size() <= 64 &&
+        data.title is string && data.title.size() >= 2 && data.title.size() <= 140 &&
+        data.streetName is string && data.streetName.size() >= 2 && data.streetName.size() <= 140 &&
+        data.ward is string && data.ward.size() >= 2 && data.ward.size() <= 80 &&
+        data.hazardType is string && data.hazardType.size() >= 2 && data.hazardType.size() <= 64 &&
+        data.severity in ['critical', 'high', 'moderate', 'low'] &&
+        data.priorityScore is number && data.priorityScore >= 0 && data.priorityScore <= 100 &&
+        data.source in ['camera', 'ai_detect'] &&
+        data.status in ['open', 'dispatched', 'pending_verification', 'verified'] &&
+        data.lat is number && data.lat >= -90 && data.lat <= 90 &&
+        data.lng is number && data.lng >= -180 && data.lng <= 180 &&
+        data.estimatedCostInr is number && data.estimatedCostInr >= 0 &&
+        data.reportedAt is string && data.reportedAt.size() <= 64 &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    // --- Collection: Operational Civic User Profiles (No PII) ---
+    match /users/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+
+      // Secure list query: no get()/exists() calls; relies strictly on resource.data or verified bootstrapped admin
+      allow list: if isVerifiedUser() && (resource.data.uid == request.auth.uid || isBootstrappedAdmin());
+
+      allow create: if isVerifiedUser() &&
+        isValidId(userId) &&
+        isValidUserAccount(incoming()) &&
+        incoming().uid == userId &&
+        incoming().uid == request.auth.uid &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time &&
+        (
+          isAdmin() ||
+          (
+            incoming().role == 'worker' &&
+            (
+              (incoming().requestedRole == 'worker' && incoming().approvalStatus == 'approved') ||
+              (incoming().requestedRole in ['engineer', 'municipality_officer', 'government'] && incoming().approvalStatus == 'pending')
+            )
+          )
+        );
+
+      allow update: if isVerifiedUser() &&
+        isValidId(userId) &&
+        isValidUserAccount(incoming()) &&
+        incoming().uid == existing().uid &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time &&
+        (
+          // Action 1: Owner updates operational metadata (role is strictly immutable for non-admins)
+          (
+            isOwner(userId) &&
+            incoming().role == existing().role &&
+            incoming().diff(existing()).affectedKeys().hasOnly([
+              'displayName',
+              'requestedRole',
+              'approvalStatus',
+              'organization',
+              'wardZone',
+              'badgeNumber',
+              'specialty',
+              'updatedAt'
+            ]) &&
+            (
+              isAdmin() ||
+              (incoming().requestedRole == existing().requestedRole && incoming().approvalStatus == existing().approvalStatus) ||
+              (incoming().requestedRole == 'worker' && incoming().approvalStatus == 'approved') ||
+              (incoming().requestedRole in ['engineer', 'municipality_officer', 'government'] && incoming().approvalStatus == 'pending')
+            )
+          ) ||
+          // Action 2: Verified Admin approves/assigns civic role
+          (
+            isAdmin() &&
+            incoming().diff(existing()).affectedKeys().hasOnly([
+              'role',
+              'requestedRole',
+              'approvalStatus',
+              'updatedAt'
+            ])
+          )
+        );
+
+      allow delete: if isValidId(userId) && isAdmin();
+
+      // --- Subcollection: Strictly Isolated User PII ---
+      match /private/{docId} {
+        allow get: if isValidId(userId) && isValidId(docId) && docId == 'info' && (isOwner(userId) || isAdmin());
+        allow list: if false;
+
+        allow create: if isVerifiedUser() &&
+          isValidId(userId) &&
+          isValidId(docId) &&
+          docId == 'info' &&
+          isOwner(userId) &&
+          isValidUserPrivateInfo(incoming()) &&
+          incoming().uid == userId &&
+          incoming().createdAt == request.time &&
+          incoming().updatedAt == request.time &&
+          existsAfter(/databases/$(database)/documents/users/$(userId));
+
+        allow update: if isVerifiedUser() &&
+          isValidId(userId) &&
+          isValidId(docId) &&
+          docId == 'info' &&
+          isOwner(userId) &&
+          isValidUserPrivateInfo(incoming()) &&
+          incoming().uid == existing().uid &&
+          incoming().createdAt == existing().createdAt &&
+          incoming().updatedAt == request.time &&
+          incoming().diff(existing()).affectedKeys().hasOnly([
+            'email',
+            'phone',
+            'dbtHandle',
+            'officeAddress',
+            'updatedAt'
+          ]) &&
+          exists(/databases/$(database)/documents/users/$(userId));
+
+        allow delete: if isValidId(userId) && isValidId(docId) && docId == 'info' && (isOwner(userId) || isAdmin());
+      }
+    }
+
+    // --- Collection: Privileged Role Verification Requests ---
+    match /role_requests/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list: if isVerifiedUser() && (resource.data.uid == request.auth.uid || isBootstrappedAdmin());
+
+      allow create: if isVerifiedUser() &&
+        isValidId(userId) &&
+        isOwner(userId) &&
+        isValidRoleRequest(incoming()) &&
+        incoming().uid == userId &&
+        incoming().status == 'pending' &&
+        incoming().reviewedByUid == '' &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time &&
+        existsAfter(/databases/$(database)/documents/users/$(userId));
+
+      allow update: if isVerifiedUser() &&
+        isValidId(userId) &&
+        isValidRoleRequest(incoming()) &&
+        incoming().uid == existing().uid &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time &&
+        (
+          // Action 1: Owner updates pending request details (cannot self-approve)
+          (
+            isOwner(userId) &&
+            existing().status == 'pending' &&
+            incoming().status == 'pending' &&
+            incoming().reviewedByUid == '' &&
+            incoming().diff(existing()).affectedKeys().hasOnly([
+              'displayName',
+              'requestedRole',
+              'organization',
+              'wardZone',
+              'badgeNumber',
+              'justification',
+              'updatedAt'
+            ])
+          ) ||
+          // Action 2: Verified Admin approves or rejects role request
+          (
+            isAdmin() &&
+            incoming().reviewedByUid == request.auth.uid &&
+            incoming().diff(existing()).affectedKeys().hasOnly([
+              'status',
+              'reviewedByUid',
+              'updatedAt'
+            ])
+          )
+        );
+
+      allow delete: if isValidId(userId) && isAdmin();
+    }
+
+    // --- Collection: Trusted Admin Registry (read-only) ---
+    match /admins/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list, create, update, delete: if false;
+    }
+
+    // --- Collection: Per-User Routix Settings ---
+    match /user_settings/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list: if false;
+
+      allow create: if isVerifiedUser() &&
+        isValidId(userId) &&
+        isOwner(userId) &&
+        isValidUserSettings(incoming()) &&
+        incoming().uid == userId &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+
+      allow update: if isVerifiedUser() &&
+        isValidId(userId) &&
+        isOwner(userId) &&
+        isValidUserSettings(incoming()) &&
+        incoming().uid == existing().uid &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time &&
+        incoming().diff(existing()).affectedKeys().hasOnly([
+          'theme',
+          'defaultTab',
+          'defaultWard',
+          'defaultHeatmapOn',
+          'autoUseGps',
+          'highSeverityAlerts',
+          'imuSensitivity',
+          'updatedAt'
+        ]);
+
+      allow delete: if isValidId(userId) && (isOwner(userId) || isAdmin());
+    }
+
+    // --- Collection: Per-User Pothole Reporting History ---
+    match /report_history/{reportId} {
+      allow get: if isValidId(reportId) && isVerifiedUser() && (existing().uid == request.auth.uid || isAdmin());
+      allow list: if isVerifiedUser() && (resource.data.uid == request.auth.uid || isBootstrappedAdmin());
+
+      allow create: if isVerifiedUser() &&
+        isValidId(reportId) &&
+        isValidReportHistory(incoming()) &&
+        incoming().id == reportId &&
+        incoming().uid == request.auth.uid &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+
+      allow update: if isVerifiedUser() &&
+        isValidId(reportId) &&
+        isValidReportHistory(incoming()) &&
+        existing().uid == request.auth.uid &&
+        incoming().id == existing().id &&
+        incoming().uid == existing().uid &&
+        incoming().hazardId == existing().hazardId &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time &&
+        incoming().diff(existing()).affectedKeys().hasOnly([
+          'status',
+          'updatedAt'
+        ]);
+
+      allow delete: if isValidId(reportId) && isVerifiedUser() && (existing().uid == request.auth.uid || isAdmin());
+    }
+
+    // --- Connection Check Document ---
+    match /test/{docId} {
+      allow get: if isValidId(docId) && docId == 'connection';
+    }
+  }
+}
